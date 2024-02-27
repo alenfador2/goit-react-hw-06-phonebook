@@ -1,13 +1,17 @@
-import React from 'react';
+import { addNumber } from '../../redux/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import css from './ContactForm.module.css';
-import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
+import { nanoid } from '@reduxjs/toolkit';
 
 const usernameInputId = nanoid();
 const usertelInputId = nanoid();
 
-const ContactForm = ({ contacts, onSubmit }) => {
+const ContactForm = () => {
+  const contacts = useSelector(state => state.contacts);
+  console.log(contacts);
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -15,18 +19,23 @@ const ContactForm = ({ contacts, onSubmit }) => {
     reset,
   } = useForm();
 
-  const handleFormSubmit = (values, { resetForm }) => {
-    const { name, number } = values;
-    const numberAlreadyExist = contacts.some(contact =>
-      contact.name.includes(name)
-    );
+  const handleFormSubmit = data => {
+    const { name, number } = data;
+    console.log(data.name);
+    console.log(data.number);
+    if (name && number) {
+      const numberAlreadyExist =
+        contacts && contacts.some(contact => contact.name === name);
 
-    if (numberAlreadyExist) {
-      alert(`${name} is already exist!`);
-      reset();
-    } else {
-      onSubmit({ id: nanoid(), name, number });
-      reset();
+      if (numberAlreadyExist) {
+        alert(`${name} is already exist!`);
+        reset();
+      } else {
+        dispatch(addNumber(data.name, data.number));
+        localStorage.setItem('contacts', JSON.stringify(contacts));
+
+        reset();
+      }
     }
   };
 
@@ -39,6 +48,7 @@ const ContactForm = ({ contacts, onSubmit }) => {
           </label>
           <input
             type="text"
+            name="name"
             {...register('name', {
               required: 'Name is required!',
               pattern: {
@@ -83,11 +93,6 @@ const ContactForm = ({ contacts, onSubmit }) => {
       </form>
     </>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  contacts: PropTypes.array.isRequired,
 };
 
 export default ContactForm;

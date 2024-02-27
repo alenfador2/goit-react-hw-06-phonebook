@@ -1,10 +1,17 @@
+import { useDispatch, useSelector } from 'react-redux';
 import css from './Filter.module.css';
-import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
+import { findNumber } from '../../redux/filtersSlice';
 
 const findNameInputId = nanoid();
 
-const Filter = ({ filter, onFilter }) => {
+const Filter = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filter);
+  console.log(filter);
+  const onFilter = event => {
+    dispatch(findNumber(event.target.value));
+  };
   return (
     <>
       <label htmlFor={findNameInputId} className={css.filter_label}>
@@ -19,11 +26,6 @@ const Filter = ({ filter, onFilter }) => {
       />
     </>
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  onFilter: PropTypes.func.isRequired,
 };
 
 export default Filter;

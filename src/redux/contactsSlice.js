@@ -18,15 +18,17 @@ const contactsSlice = createSlice({
       },
       prepare(name, number) {
         return {
-          id: nanoid(),
-          name,
-          number,
+          payload: {
+            id: nanoid(),
+            name,
+            number,
+          },
         };
       },
     },
     deleteNumber: {
       reducer(state, action) {
-        return state.filter(task => task.id !== action.payload);
+        return state.filter(contact => contact.id !== action.payload);
       },
     },
   },
