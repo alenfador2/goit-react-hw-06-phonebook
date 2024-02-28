@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  value: '',
+};
+
 const filterSlice = createSlice({
   name: 'filter',
-  initialState: '',
+  initialState,
   reducers: {
     findNumber(state, action) {
-      const nameToFind = action.payload.toLowerCase();
-      return state.filter(
-        contacts => contacts.name.toLowerCase() === nameToFind
-      );
+      state.value = action.payload;
     },
   },
 });

@@ -1,6 +1,14 @@
 import css from './ContactItem.module.css';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { deleteNumber } from '../../redux/contactsSlice';
 
-const ContactItem = ({ id, name, number, onDelete }) => {
+const ContactItem = ({ id, name, number }) => {
+  const dispatch = useDispatch();
+  const onDelete = id => {
+    dispatch(deleteNumber(id));
+  };
+
   return (
     <>
       <div className={css.span_container}>
@@ -16,6 +24,12 @@ const ContactItem = ({ id, name, number, onDelete }) => {
       </div>
     </>
   );
+};
+
+ContactItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
 };
 
 export default ContactItem;

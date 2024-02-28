@@ -9,7 +9,6 @@ const usertelInputId = nanoid();
 
 const ContactForm = () => {
   const contacts = useSelector(state => state.contacts);
-  console.log(contacts);
   const dispatch = useDispatch();
 
   const {
@@ -21,8 +20,6 @@ const ContactForm = () => {
 
   const handleFormSubmit = data => {
     const { name, number } = data;
-    console.log(data.name);
-    console.log(data.number);
     if (name && number) {
       const numberAlreadyExist =
         contacts && contacts.some(contact => contact.name === name);
