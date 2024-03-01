@@ -59,7 +59,9 @@ const ContactForm = () => {
             className={css.username_input}
             placeholder="Please write username"
           />
-          {errors.name && <p className={css.errors}>{errors.name.message}</p>}
+          {errors.name?.message && (
+            <p className={css.errors}>{errors.name.message}</p>
+          )}
 
           <label htmlFor={usertelInputId} className={css.usertel_label}>
             Number
@@ -80,7 +82,7 @@ const ContactForm = () => {
             className={css.usertel_input}
             placeholder="Please write number"
           />
-          {errors.number && (
+          {errors.number?.message && (
             <p className={css.errors}>{errors.number.message}</p>
           )}
           <button type="submit" className={css.add_button}>
